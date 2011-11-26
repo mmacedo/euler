@@ -1,6 +1,6 @@
 #!/ruby/env ruby
 
-# http://projecteuler.net/problem=3
+# http://projecteuler.net/problem=10
 
 require './prime.rb'
 require './units.rb'
