@@ -1,5 +1,3 @@
-#!/bin/env ruby
-
 class Numeric
   def thousands
     self * 1000

@@ -1,4 +1,4 @@
-#!/ruby/env ruby
+#!/usr/bin/env ruby
 
 # http://projecteuler.net/problem=7
 
