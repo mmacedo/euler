@@ -3,4 +3,4 @@ exports.isPrime = (n) ->
   while current*current <= n
     return false if n % current is 0
     current += 1
-  true
+  n isnt 1
