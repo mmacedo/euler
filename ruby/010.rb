@@ -2,8 +2,8 @@
 
 # http://projecteuler.net/problem=10
 
-require './prime.rb'
-require './units.rb'
+require File.expand_path('./prime.rb', File.dirname(__FILE__))
+require File.expand_path('./units.rb', File.dirname(__FILE__))
 
 sum = 0
 prime_until(2) do |prime|

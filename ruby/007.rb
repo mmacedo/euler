@@ -2,7 +2,7 @@
 
 # http://projecteuler.net/problem=7
 
-require './prime.rb'
+require File.expand_path('./prime.rb', File.dirname(__FILE__))
 
 def nth_prime(n)
   i = 0

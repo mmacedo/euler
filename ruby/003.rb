@@ -2,7 +2,7 @@
 
 # http://projecteuler.net/problem=3
 
-require './prime.rb'
+require File.expand_path('./prime.rb', File.dirname(__FILE__))
 
 number = 600851475143
 factor = 3

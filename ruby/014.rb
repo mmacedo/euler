@@ -2,7 +2,7 @@
 
 # http://projecteuler.net/problem=14
 
-require './units.rb'
+require File.expand_path('./units.rb', File.dirname(__FILE__))
 
 def get_next(n)
   if n % 2 == 0

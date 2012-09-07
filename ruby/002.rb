@@ -2,7 +2,7 @@
 
 # http://projecteuler.net/problem=2
 
-require './units.rb'
+require File.expand_path('./units.rb', File.dirname(__FILE__))
 
 result = 0
 last = 0
