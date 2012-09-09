@@ -28,12 +28,12 @@ exploreNode = (node) ->
       {
         row: node.row + 1
         col: node.col
-        val: node.val + triangle[node.row + 1][node.col]
+        total: node.total + triangle[node.row + 1][node.col]
       }
     , {
         row: node.row + 1
         col: node.col + 1
-        val: node.val + triangle[node.row + 1][node.col + 1]
+        total: node.total + triangle[node.row + 1][node.col + 1]
       }
     ]
 
@@ -45,12 +45,11 @@ graphTraversal = (start, callback) ->
   while explored.length > 0
     current = selectNode(explored)
     explored.push exploreNode(current)...
-    break if callback(current) is true
+    callback(current)
 
-largest = 0
-startNode = row:0, col:0, val:triangle[0][0]
+startNode = row:0, col:0, total:triangle[0][0], path:[]
+largest = startNode
 graphTraversal startNode, (node) ->
-  largest = node.val if node.row is triangle.length - 1 and node.val > largest
-  false
+  largest = node if node.row is triangle.length - 1 and node.total > largest.total
 
-console.log largest
+console.log largest.total
