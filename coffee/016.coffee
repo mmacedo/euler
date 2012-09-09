@@ -5,8 +5,7 @@
 # Gets an array of digits (least significant digit first)
 times2 = (arr) ->
   addToTheLeft = 0
-  len = arr.length - 1
-  for i in [0..len]
+  for i in [0...arr.length]
     value = arr[i] * 2 + addToTheLeft
     arr[i] = value % 10
     addToTheLeft = Math.floor(value / 10)
