@@ -1,4 +1,3 @@
-{euler} = require './euler'
 {sumDiagonals} = require '../028'
 
 describe 'sumDiagonals', () ->
@@ -20,8 +19,3 @@ describe 'sumDiagonals', () ->
 
   it 'should return correct value for size 5', () ->
     expect(sumDiagonals(5)).toBe(101)
-
-  euler () ->
-    sumDiagonals(1001)
-
-  return
