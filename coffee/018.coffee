@@ -20,36 +20,35 @@ triangle = [
 , [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23 ]
 ]
 
-exploreNode = (node) ->
+exploreNode = (triangle, node) ->
   if node.row is triangle.length - 1
     []
   else
     [
       {
-        row: node.row + 1
-        col: node.col
+        row:   node.row + 1
+        col:   node.col
         total: node.total + triangle[node.row + 1][node.col]
       }
     , {
-        row: node.row + 1
-        col: node.col + 1
+        row:   node.row + 1
+        col:   node.col + 1
         total: node.total + triangle[node.row + 1][node.col + 1]
       }
     ]
 
-selectNode = (nodes) ->
-  nodes.pop()
-
-graphTraversal = (start, callback) ->
-  explored = [start]
-  while explored.length > 0
-    current = selectNode(explored)
-    explored.push exploreNode(current)...
+# Brute force
+graphTraversal = (triangle, start, callback) ->
+  open = [start]
+  while open.length > 0
+    current = open.pop()
+    open.push exploreNode(triangle, current)...
     callback(current)
+  return
 
-startNode = row:0, col:0, total:triangle[0][0], path:[]
+startNode = row:0, col:0, total:triangle[0][0]
 largest = startNode
-graphTraversal startNode, (node) ->
+graphTraversal triangle, startNode, (node) ->
   largest = node if node.row is triangle.length - 1 and node.total > largest.total
 
 console.log largest.total

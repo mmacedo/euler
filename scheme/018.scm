@@ -1,5 +1,7 @@
 #lang scheme
 
+; http://projecteuler.net/problem=18
+
 (define triangle '(
   (                            75 )
   (                          95  64 )
@@ -20,56 +22,43 @@
 
 (define-struct node (row col total))
 
-; Util functions
-(define nth
-  (lambda (n list)
-    (cond
-      ((= n 0) (car list))
-      (else (nth (- n 1) (cdr list))))))
+; Brute force
+(define (graph-traversal triangle callback)
+  (define (cons-two to from)
+    (if (null? from)
+        to
+        (cons (car from)
+              (cons (cadr from)
+                    to))))
 
-(define cons-two
-  (lambda (from to)
-    (cond
-      ((null? from) to)
-      (else
-       (cons
-        (car from)
-        (cons
-         (car (cdr from))
-         to))))))
+  (define (explore-node node)
+    (if (= (node-row node) (- (length triangle) 1))
+        '()
+        (let ((row (list-ref triangle (+ (node-row node) 1))))
+          (list (make-node (+ (node-row node) 1)
+                           (node-col node)
+                           (+ (node-total node) (list-ref row (node-col node))))
+                (make-node (+ (node-row node) 1)
+                           (+ (node-col node) 1)
+                           (+ (node-total node) (list-ref row (+ (node-col node) 1))))))))
 
-(define explore-node
-  (lambda (triangle node)
-    (cond
-      ((= (- (length triangle) 1) (node-row node))
-       '())
-      (else
-       (cons
-        (make-node (+ (node-row node) 1)
-                  (node-col node)
-                  (+ (node-total node)
-                     (nth (node-col node) (nth (+ (node-row node) 1) triangle))))
-        (cons
-         (make-node (+ (node-row node) 1)
-                   (+ (node-col node) 1)
-                   (+ (node-total node)
-                      (nth (+ (node-col node) 1) (nth (+ (node-row node) 1) triangle))))
-         '()))))))
+  (define (iterate open current previous-result)
+    (let ((result (apply callback (list previous-result current))))
+      (if (null? open)
+          result
+          (let ((next (car open)) (rest (cdr open)))
+            (iterate (cons-two rest (explore-node next)) next result)))))
 
-(define graph-traversal
-  (lambda (triangle open largest)
-    (cond
-      ((null? open) largest)
-      (else 
-       (graph-traversal 
-        triangle
-        (cons-two (explore-node triangle (car open)) (cdr open))
-        (cond
-          ((and (= (- (length triangle) 1) (node-row (car open)))
-                (> (node-total (car open)) (node-total largest)))
-           (car open))
-          (else largest)))))))
-        
-(define result (graph-traversal triangle (cons (make-node 0 0 (car (car triangle))) '()) (make-node 0 0 0)))
+  (let ((start (make-node 0 0 (list-ref (list-ref triangle 0) 0))))
+    (iterate (explore-node start) start '())))
 
-(node-total result)
+(begin
+  (define (find-largest previous current)
+    (if (and (node? previous) (>= (node-total previous) (node-total current)))
+        previous
+        current))
+
+  (define result (graph-traversal triangle find-largest))
+
+  (display (node-total result))
+  (newline))

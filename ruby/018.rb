@@ -19,30 +19,31 @@ triangle[12] = [    91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48 ]
 triangle[13] = [  63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31 ]
 triangle[14] = [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23 ]
 
-def exploreNode triangle, node
-  result = []
-  if node[:row] != triangle.length - 1 then
-    row = node[:row] + 1
-    col = node[:col]
-    val = triangle[row][col]
-    result.push row:row, col:col, val:val, total:node[:total]+val
-
-    col = node[:col] + 1
-    val = triangle[row][col]
-    result.push row:row, col:col, val:val, total:node[:total]+val
+def exploreNode(triangle, node)
+  if node[:row] == triangle.length - 1 then
+    []
+  else
+    [
+      {
+        row:   node[:row] + 1,
+        col:   node[:col],
+        total: node[:total] + triangle[node[:row] + 1][node[:col]]
+      },
+      {
+        row:   node[:row] + 1,
+        col:   node[:col] + 1,
+        total: node[:total] + triangle[node[:row] + 1][node[:col] + 1]
+      }
+    ]
   end
-  result
 end
 
-def selectNode nodes
-  nodes.pop()
-end
-
-def graphTraversal triangle, start
-  explored = [start]
-  until explored.empty? do
-    current = selectNode(explored)
-    explored.push *exploreNode(triangle, current)
+# Brute force
+def graphTraversal(triangle, start)
+  open = [start]
+  until open.empty? do
+    current = open.pop()
+    open.push(*exploreNode(triangle, current))
     yield(current)
   end
 end
