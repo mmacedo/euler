@@ -1,0 +1,9 @@
+# Scheme
+*.scm~
+
+# Erlang
+*.beam
+
+# Node.JS
+node_modules
+coffee/*.js
