@@ -1,9 +1,11 @@
 #!/usr/bin/env coffee
 
-# http://projecteuler.net/problem=18
+# http://projecteuler.net/problem=67
 
 # Load graph
-triangle = require('fs').readFileSync('./data/triangle.txt').toString().split(/\n/g).map (s) ->
+file_name = require('path').join(__dirname, 'data/triangle.txt')
+file = require('fs').readFileSync(file_name).toString()
+triangle = file.split(/\n/g).splice(0, 100).map (s) ->
   s.split(' ').map (val) -> parseInt(val, 10)
 
 # Get largest value
@@ -12,27 +14,34 @@ largestValue = triangle.map((row) -> row.reduce(max2, 0)).reduce(max2, 0)
 
 # Invert the problem to a shortest path problem
 for row in triangle
-  for colIndex in [0...row.length]
-    row[colIndex] = largestValue - row[colIndex]
+  for value, colIndex in row
+    row[colIndex] = largestValue - value
+
+# Add extra row to be goal node
+triangle.push [0]
+
+nodeKey = (node) -> "#{node.row}.#{node.col}"
 
 exploreNode = (node) ->
-  if node.row is triangle.length - 1
-    []
+  if node.row is triangle.length - 2
+    [
+      {
+        row: node.row + 1
+        col: 0
+        total: node.total
+      }
+    ]
   else
     [
       {
         row: node.row + 1
         col: node.col
-        val: triangle[node.row + 1][node.col]
         total: node.total + triangle[node.row + 1][node.col]
-        prop: "#{node.row + 1}.#{node.col}"
       }
     , {
         row: node.row + 1
         col: node.col + 1
-        val: triangle[node.row + 1][node.col + 1]
         total: node.total + triangle[node.row + 1][node.col + 1]
-        prop: "#{node.row + 1}.#{node.col + 1}"
       }
     ]
 
@@ -43,23 +52,28 @@ bestNode = (nodes) ->
   best
 
 isGoal = (explored, node) ->
+  # Is extra row
   node.row is triangle.length - 1
 
 closeNode = (open, closed, node) ->
-  for i in [0...open.length]
-    if open[i].row is node.row and open[i].col is node.col
+  # Remove from open
+  for openNode, i in open
+    if openNode.row is node.row and openNode.col is node.col
       open.splice(i, 1)
       break
-  closed[node.prop] = node unless closed[node.prop]? and closed[node.prop].total < node.total
+  # Add to closed
+  key = nodeKey(node)
+  closed[key] = node.total unless closed[key]? and closed[key] <= node.total
   return
 
 openNodes = (open, closed, nodes) ->
+  # Add children nodes to open
   for node in nodes
-    unless closed[node.prop]?.total < node.total
-      open.push node
+    key = nodeKey(node)
+    open.push(node) unless closed[key]? and closed[key] <= node.total
   return
 
-# Best First Search
+# Best-First Search
 graphTraversal = (start) ->
   open = [ start ]
   closed = {}
@@ -70,10 +84,10 @@ graphTraversal = (start) ->
     openNodes open, closed, exploreNode(current)
   null
 
-startNode = row:0, col:0, val:triangle[0][0], total:triangle[0][0], prop:'0.0'
+startNode = row:0, col:0, total:triangle[0][0]
 result = graphTraversal startNode
 
 # Revert the inversion of the graph
-total = (largestValue * triangle.length) - result.total
+total = (largestValue * (triangle.length - 1)) - result.total
 
 console.log total
