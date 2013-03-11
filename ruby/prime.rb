@@ -1,33 +1,20 @@
 def prime?(n)
-  if n == 1
-    true
-  elsif n == 2
-    true
-  elsif n == 3
+  if 1 == n
+    false
+  elsif (2..3) === n
     true
   elsif n % 2 == 0
     false
   else
     factor = 3
-    while factor < (n / factor) && n % factor > 0
+    while n % factor != 0 and (factor * factor) < n
       factor = factor + 2
     end
     n % factor > 0
   end
 end
 
-def prime_until(from = 1)
-  if from <= 1 and yield 1
-    1
-  elsif from <= 2 and yield 2
-    2
-  else
-    n = 3
-    while from > n or ! yield n
-      begin
-        n = n + 2
-      end until prime? n
-    end
-    n
-  end
+def primes(from: 1, to: Float::INFINITY)
+  enumerator = if to > from then from.upto(to) else from.downto(to) end
+  enumerator.lazy.select { |n| prime? n }
 end
