@@ -2,7 +2,7 @@
 
 # http://projecteuler.net/problem=3
 
-require File.expand_path('./prime.rb', File.dirname(__FILE__))
+require File.expand_path('./primes.rb', File.dirname(__FILE__))
 
 number = 600851475143
 root   = Math.sqrt(number).to_i
