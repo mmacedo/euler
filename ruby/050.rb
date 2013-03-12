@@ -2,12 +2,12 @@
 
 # http://projecteuler.net/problem=50
 
-require File.expand_path('./lazy.rb', File.dirname(__FILE__))
+require File.expand_path('./sequences.rb', File.dirname(__FILE__))
 require File.expand_path('./primes.rb', File.dirname(__FILE__))
 require File.expand_path('./units.rb', File.dirname(__FILE__))
 
 def primes_sum_of_consecutive_primes(to)
-  primes(to:to).flat_map_reduce([]) do |sums, prime|
+  primes(to:to).flat_map_inject([]) do |sums, prime|
     # add current prime number to existing sums
     sums = sums.map { |sum| [ sum[0].succ, sum[1] + prime ] }
     # filter sums that exceeded the target
@@ -20,4 +20,4 @@ def primes_sum_of_consecutive_primes(to)
   end
 end
 
-puts primes_sum_of_consecutive_primes(1.million.pred).max_by { |sum| sum[0] }[1]
+puts primes_sum_of_consecutive_primes(1.million.pred).max_by(&:first)[1]

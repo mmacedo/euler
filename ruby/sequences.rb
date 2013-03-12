@@ -1,12 +1,14 @@
 module Enumerable
-  def map_reduce(initial)
+  # map with an accumulator
+  def map_inject(initial)
     accumulator = initial
     map do |*values|
       accumulator = yield accumulator, *values
     end
   end
 
-  def flat_map_reduce(initial)
+  # flat_map with an accumulator
+  def flat_map_inject(initial)
     accumulator = initial
     flat_map do |*values|
       accumulator = yield accumulator, *values
@@ -15,7 +17,8 @@ module Enumerable
 end
 
 class Enumerator::Lazy
-  def map_reduce(initial)
+  # lazy map with an accumulator
+  def map_inject(initial)
     accumulator = initial
     Lazy.new(self) do |yielder, *values|
       accumulator = yield accumulator, *values
@@ -23,12 +26,32 @@ class Enumerator::Lazy
     end
   end
 
-  def flat_map_reduce(initial)
+  # lazy flat_map with an accumulator
+  def flat_map_inject(initial)
     accumulator = initial
     Lazy.new(self) do |yielder, *values|
       accumulator = yield accumulator, *values
       accumulator.each { |a| yielder << a }
       accumulator
     end
+  end
+end
+
+class Object
+  # Generate a lazy sequence until block returns nil
+  def unfold
+    Enumerator.new do |y|
+      result = yield self
+      until result.nil?
+        y << result
+        result = yield result
+      end
+    end.lazy
+  end
+end
+
+class Integer
+  def and_beyond
+    upto(FLOAT::INFINITY).lazy
   end
 end
