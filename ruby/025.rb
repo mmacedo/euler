@@ -2,20 +2,13 @@
 
 # http://projecteuler.net/problem=25
 
-def fiboUntil
-  n = 1
-  last = 0
-  fibo = 1
-  until yield(fibo, n)
-    fibo, last = fibo + last, fibo
-    n += 1
-  end
-  n
+require File.expand_path('./fibonacci.rb', File.dirname(__FILE__))
+
+def more_than_n_digits(seq, length)
+  value = 10 ** (length - 1)
+  seq.drop_while { |n| n < value }
 end
 
-def problem25 digits
-  raise ArgumentError.new(":digits should be greater than zero") unless digits > 0
-  fiboUntil { |x| x.to_s.length == digits }
-end
+first_index = more_than_n_digits(fibonacci.each_with_index, 1000).first[1] + 1
 
-puts problem25(1000)
+puts first_index

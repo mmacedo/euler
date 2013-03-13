@@ -55,11 +55,11 @@ class Array
   # Generate a lazy sequence until block returns nil
   def unfold(include_self = false)
     Enumerator.new do |y|
-      y.<<(*self) if include_self
-      result = yield(*self)
+      y << self if include_self
+      result = yield self
       until result.nil?
-        y.<<(*result)
-        result = yield(*result)
+        y << result
+        result = yield result
       end
     end.lazy
   end
