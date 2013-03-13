@@ -2,12 +2,14 @@
 
 # http://projecteuler.net/problem=7
 
-{isPrime} = require './prime'
+{isPrime} = require './primes'
 
-i = 1
-n = 2
-while i < 10001
-  n += 1
-  i += 1 if isPrime n
+nthPrime = (n) ->
+  index = 1
+  number = 2
+  while index < 10001
+    number += 1
+    index += 1 if isPrime number
+  number
 
-console.log n
+console.log nthPrime(10001)

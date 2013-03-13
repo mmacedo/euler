@@ -2,10 +2,12 @@
 
 # http://projecteuler.net/problem=3
 
-{isPrime} = require './prime'
+{isPrime} = require './primes'
 
-number = 600851475143
-divisor = 1
-divisor += 1 until number % divisor is 0 and isPrime(number/divisor)
+largestPrimeFactor = (number) ->
+  other_factor = 2
+  until number % other_factor is 0 and isPrime(number / other_factor)
+    other_factor += 1
+  number / other_factor
 
-console.log number / divisor
+console.log largestPrimeFactor(600851475143)
