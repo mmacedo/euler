@@ -4,4 +4,8 @@
 
 require File.expand_path('./primes.rb', File.dirname(__FILE__))
 
-puts primes.drop(10000).first
+def nth_prime(n)
+  primes.drop(n.pred).first
+end
+
+puts nth_prime(10001)

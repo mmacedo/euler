@@ -2,22 +2,22 @@
 
 # http://projecteuler.net/problem=5
 
-def lcm(n)
-  n = n.clone
-  ret = 1
-  while n.length > 0
-    divisor = 2
-    divisor += 1 while n[0] > 1 && n[0] % divisor > 0
-
-    (n.length-1).downto(0) do |i|
-      n[i] /= divisor if n[i] % divisor == 0
-      n.delete_at i if n[i] == 1
+# Least Common Multiple
+def lcm(*numbers)
+  numbers = numbers.clone
+  result = 1
+  divisor = 2
+  until numbers.empty?
+    while numbers.any? { |n| n % divisor == 0 }
+      result *= divisor
+      numbers.map! { |n| if n % divisor == 0 then (n / divisor) else n end }
     end
 
-    ret *= divisor
-  end
+    numbers.delete_if { |n| n == 1 }
 
-  ret
+    divisor += 1
+  end
+  result
 end
 
-puts lcm (1..20).to_a
+puts lcm(*1..20)

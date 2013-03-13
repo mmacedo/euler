@@ -2,34 +2,24 @@
 
 # http://projecteuler.net/problem=4
 
-def palindrome?(n)
-  size = 1
-  size *= 10 while size < n
-  size /= 10
-
-  palindrome = true
-  while size >= 10
-    smaller = n % 10
-    larger = smaller * size
-    test = n - larger
-    palindrome = test >= 0 && test < size
-    break unless palindrome
-    n = (n - larger) / 10
-    size /= 100
+def palindrome?(chars)
+  smaller = 0
+  larger  = chars.length - 1
+  while larger > smaller
+    return false if chars[larger] != chars[smaller]
+    smaller += 1
+    larger  -= 1
   end
-  palindrome
+  true
 end
 
-largest = 0
-for i in 999.downto 100
-  break if i * i <= largest
-  for j in i.downto 100
-    product = i * j
-    break if product <= largest
-    if palindrome? product
-      largest = product
-    end
-  end
+def largest_product_palindrome(factors)
+  factors.to_a.combination(2)
+    .map { |f1, f2| f1 * f2 }
+    .select { |product| palindrome?(product.to_s) }
+    .max
 end
+
+largest = largest_product_palindrome(100..999)
 
 puts largest

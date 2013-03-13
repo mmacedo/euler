@@ -2,17 +2,15 @@
 
 # http://projecteuler.net/problem=9
 
-findPythagoreanTripletFor = (n) ->
-  for a in [1..(n-2)]
-    sum = 0
-    b = a
-    while sum < n
-      b += 1
-      c = Math.sqrt(a*a + b*b)
-      sum = a + b + c
-      return a * b * c if sum is n
-  NaN
+pythagoreanTriplet = (sum) ->
+  for c1 in [1...sum]
+    for c2 in [c1...sum]
+      h = sum - c1 - c2
+      # return triplet if h is really the hypotenuse
+      return [c1, c2, h] if (h * h) == (c1 * c1 + c2 * c2)
 
-product = findPythagoreanTripletFor 1000
+multiply = (a, b) -> a * b
+
+product = pythagoreanTriplet(1000).reduce(multiply, 1)
 
 console.log product

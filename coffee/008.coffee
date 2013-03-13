@@ -23,11 +23,17 @@ number = "73167176531330624919225119674426574742355349194934
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450"
 
-arr = (parseInt(number[i], 10) for i in [0..999])
+multiply = (a, b) -> a * b
 
-largest = 0
-for i in [0..995]
-  current = arr[i] * arr[i+1] * arr[i+2] * arr[i+3] * arr[i+4]
-  largest = current if current > largest
+largest_product_of_consecutive_numbers = (numbers, consecutive) ->
+  largest = null
+  for i in [0..(numbers.length - consecutive)]
+    product = numbers.slice(i, i + consecutive).reduce(multiply, 1)
+    largest = product if product > largest
+  largest
+
+arr = (parseInt(n, 10) for n in number)
+
+largest = largest_product_of_consecutive_numbers(arr, 5)
 
 console.log largest

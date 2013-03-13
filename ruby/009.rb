@@ -2,18 +2,16 @@
 
 # http://projecteuler.net/problem=9
 
-sum = 0
-a = 0
-begin
-  a += 1
+def pythagorean_triplet(sum)
+  (1...sum).each do |c1|
+    (c1.succ...sum).each do |c2|
+      h =  (sum - c1 - c2)
+      # return triplet if h is really the hypotenuse
+      return [c1, c2, h] if (h * h) == (c1 * c1 + c2 * c2)
+    end
+  end
+end
 
-  b = 0
-  begin
-    b += 1
+product = pythagorean_triplet(1000).reduce(:*)
 
-    c = Math.sqrt(a*a + b*b)
-    sum = a + b + c
-  end while sum < 1000
-end until sum == 1000
-
-puts a * b * Integer(c)
+puts product

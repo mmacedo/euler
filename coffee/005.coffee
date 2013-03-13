@@ -2,11 +2,21 @@
 
 # http://projecteuler.net/problem=5
 
-isEvenlyDivisibleBy1to20 = (n) ->
-  return false for divisor in [1..20] when n % divisor isnt 0
-  true
+# Least Common Multiple
+lcm = (numbers...) ->
+  result = 1
+  divisor = 2
+  until numbers.length is 0
+    # while at least one number is a multiple of divisor
+    while numbers.some((n) -> n % divisor is 0)
+      # multiply the result by divisor
+      result *= divisor
+      # divide all multiples of divisor by divisor
+      numbers = numbers.map (n) -> if n % divisor is 0 then n / divisor else n
 
-n = 20
-n += 1 until isEvenlyDivisibleBy1to20 n
+    # remove 1's
+    numbers = numbers.filter (n) -> n isnt 1
+    divisor += 1
+  result
 
-console.log n
+console.log lcm([1..20]...)

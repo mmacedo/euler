@@ -1,5 +1,5 @@
 def digits(n)
-  n.abs.to_s.split(//).map { |s| s.to_i }
+  n.abs.to_s.chars.map { |s| s.to_i }
 end
 
 def manual_division(num, den, max_precision = 0)

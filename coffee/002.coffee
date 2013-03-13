@@ -2,11 +2,15 @@
 
 # http://projecteuler.net/problem=2
 
-previous = 1
-current = 1
-sum = 0
-while current <= 4000000
-  [previous, current] = [current, current + previous]
-  sum += current if current % 2 == 0
+sumEvenFibonacci = (max) ->
+  previous = 0
+  current  = 1
+  sum      = 0
+  while current <= max
+    sum += current if current % 2 == 0
+    [previous, current] = [current, current + previous]
+  sum
+
+sum = sumEvenFibonacci(4000000)
 
 console.log sum
