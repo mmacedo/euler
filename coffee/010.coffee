@@ -4,10 +4,10 @@
 
 {isPrime} = require './primes'
 
-sumPrimes = (n) ->
+sumPrimes = (below) ->
   sum = 0
-  for n in [1...n]
-    sum += n if isPrime n
+  for n in [2...below] when isPrime(n)
+    sum += n
   sum
 
 sum = sumPrimes(2000000)

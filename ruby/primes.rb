@@ -1,17 +1,12 @@
 def prime?(n)
-  if 1 == n
-    false
-  elsif (2..3) === n
-    true
-  elsif n % 2 == 0
-    false
-  else
-    factor = 3
-    while n % factor != 0 and (factor * factor) < n
-      factor = factor + 2
-    end
-    n % factor > 0
+  return false if 1 == n or n.even?
+  return true  if 2 == n
+  divisor = 3
+  while (divisor * divisor) <= n
+    return false if n % divisor == 0
+    divisor += 2
   end
+  true
 end
 
 def primes(from: 1, to: Float::INFINITY)
