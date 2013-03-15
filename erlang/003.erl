@@ -2,31 +2,12 @@
 
 % http://projecteuler.net/problem=3
 
--mode(compile).
+-mode(native).
 
-is_prime(X) when X =< 0 ->
-  throw("Number must be a natural number.");
-is_prime(1) ->
-  false;
-% test for 2 to start the loop with 3
-is_prime(2) ->
-  true;
-is_prime(X) when X rem 2 == 0 ->
-  false;
-% start with 3 to be able to skip evens
-is_prime(X) when X >= 3 ->
-  is_prime(X, 3).
-
-is_prime(X, Factor) when (Factor * Factor) > X ->
-  true;
-is_prime(X, Factor) when X rem Factor == 0 ->
-  false;
-% skip evens to go twice as fast
-is_prime(X, Factor) ->
-  is_prime(X, Factor + 2).
+-include_lib("primes.erl").
 
 largest_prime_factor(X) when X =< 0 ->
-  throw("Number must be a natural number.");
+  throw("Number must be a positive integer.");
 largest_prime_factor(X) ->
   largest_prime_factor(X, 2).
 
