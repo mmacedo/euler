@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+typeset -A language_pairs
+language_pairs[coffee]=coffee
+language_pairs[ruby]=rb
+language_pairs[erlang]=erl
+language_pairs[scheme]=scm
+
+function time_problem () {
+  problem="$1"
+  language="$2"
+
+  folder="$language"
+  extension=${language_pairs[$folder]}
+
+  file=$(printf "%s/%03d.%s" "$folder" "$problem" "$extension")
+  if [ -f "$file" ]
+  then
+    result=$( ( /usr/bin/time --format "%Us" $file ) 2>&1 )
+    result_time=$(echo "$result" | tail -1)
+    result_cmd=$(echo "$result" | head -1)
+    printf "% 3d: % -7s took % 7s and got %s\n" "$problem" "$folder" "$result_time" "$result_cmd"
+  fi
+}
+
+function main () {
+  problem="$1"
+  language="$2"
+
+  if [ -z "$problem" ]; then echo "Problem not specified" 1>&2; exit 1; fi
+
+  if [ -n "$language" ]
+  then
+    if [ -z "${language_pairs[$language]}" ]; then echo "Language specified is unknown" 1>&2; exit 1; fi
+    time_problem $problem $language
+  else
+    for language in "${!language_pairs[@]}"
+    do
+      time_problem $problem $language
+    done
+  fi
+}
+
+main $@
