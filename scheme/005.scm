@@ -5,13 +5,6 @@
 
 (require srfi/26)
 
-(define [enumerate-interval low high]
-  (if (> low high)
-      '()
-      (cons
-       low
-       (enumerate-interval (add1 low) high))))
-
 (define [any? pred s]
   (cond
     [(null? s) #f]
@@ -44,4 +37,4 @@
 
   (iter numbers 2 1))
 
-(lcm (enumerate-interval 1 10))
+(lcm (range 1 21))
