@@ -2,7 +2,7 @@
 
 % http://projecteuler.net/problem=18
 
--mode(compile).
+-mode(native).
 
 -record(node, {row=1,
                col=1,

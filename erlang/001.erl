@@ -2,8 +2,6 @@
 
 % http://projecteuler.net/problem=1
 
--mode(compile).
-
 sum_multiples_of_3_and_5_below(Limit) when Limit =< 1 ->
   throw("Limit must be a natural number.");
 sum_multiples_of_3_and_5_below(Limit) ->

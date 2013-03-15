@@ -2,8 +2,6 @@
 
 % http://projecteuler.net/problem=6
 
--mode(compile).
-
 square_of_sums(X) ->
   Numbers = lists:seq(1, X),
   Sum     = lists:sum(Numbers),
@@ -11,7 +9,7 @@ square_of_sums(X) ->
 
 sum_of_squares(X) ->
   Numbers = lists:seq(1, X),
-  Squares = lists:map(fun(X) -> X * X end, Numbers),
+  Squares = lists:map(fun(Y) -> Y * Y end, Numbers),
   lists:sum(Squares).
 
 main(_) ->

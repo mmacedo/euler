@@ -5,8 +5,11 @@
 require File.expand_path('./primes.rb', File.dirname(__FILE__))
 
 def largest_prime_factor(number)
-  root = Math.sqrt(number).to_i
-  primes(from: root, to: 2).find { |prime| number % prime == 0 }
+  other_factor = 2
+  until number % other_factor == 0 and prime?(number / other_factor)
+    other_factor += 1
+  end
+  number / other_factor
 end
 
 factor = largest_prime_factor(600851475143)

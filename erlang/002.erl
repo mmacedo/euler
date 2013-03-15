@@ -2,8 +2,6 @@
 
 % http://projecteuler.net/problem=2
 
--mode(compile).
-
 sum_even_fibonacci(Limit) when Limit =< 0 ->
   throw("Limit must be a natural number.");
 sum_even_fibonacci(Limit) ->
