@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-for problem in {1..25}
-do
-  ./run $problem
-  echo
-done

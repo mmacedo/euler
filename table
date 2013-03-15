@@ -4,7 +4,7 @@ typeset -A language_pairs
 language_pairs[coffee]=coffee
 language_pairs[ruby]=rb
 language_pairs[erlang]=erl
-language_pairs[scheme]=scm
+language_pairs[racket]=rkt
 
 # Headers
 printf "Prob |"
