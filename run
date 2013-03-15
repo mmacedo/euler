@@ -14,6 +14,7 @@ function time_problem () {
   extension=${language_pairs[$folder]}
 
   file=$(printf "%s/%03d.%s" "$folder" "$problem" "$extension")
+
   if [ -f "$file" ]
   then
     result=$( ( /usr/bin/time --format "%Us" $file ) 2>&1 )

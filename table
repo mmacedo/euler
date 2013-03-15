@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+typeset -A language_pairs
+language_pairs[coffee]=coffee
+language_pairs[ruby]=rb
+language_pairs[erlang]=erl
+language_pairs[scheme]=scm
+
+# Headers
+printf "Prob |"
+for lang in "${!language_pairs[@]}"
+do
+  printf " % -7s |" "$lang"
+done
+printf "\n"
+
+solved="$(echo {1..26}) 28 31 35 37 50 67"
+
+for problem in $solved
+do
+  # Problem
+  printf " % 3d |" "$problem"
+
+  for lang in "${!language_pairs[@]}"
+  do
+    folder="$lang"
+    extension=${language_pairs[$lang]}
+
+    file=$(printf "%s/%03d.%s" "$folder" "$problem" "$extension")
+
+    if [ -f "$file" ]
+    then
+      printf "    ✓    |"
+    else
+      printf "         |"
+    fi
+  done
+  printf "\n"
+done
+
+echo
